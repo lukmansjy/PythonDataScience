@@ -49,3 +49,51 @@ print(dataTitanic2.loc['S', ['age', 'fare']])
 
 print('# Memilih data yang embarked berlabel S, Q, dan kolom age dan fare')
 print(dataTitanic2.loc[['S', 'Q'], ['age', 'fare']])
+
+
+#### Membersikan data dari NaN ####
+
+age = dataTitanic['age']
+
+# secara default panda akan skip Nan (skipna)
+print(age.count())
+print(age.mean())
+print(age.median())
+print(age.sum())
+print(age.std())
+
+# Mendapatkan umur bersih (tanpa missing value/NaN)
+ageClean = age.dropna()
+print('Age Clean')
+print(ageClean)
+
+print('# Menghilangakan baris yang ada NaN nya')
+dataTitanicClean = dataTitanic.dropna()
+print(dataTitanicClean)
+
+print('# Menghilangakan kolom yang ada NaN nya')
+dataTitanicClean2 = dataTitanic.dropna(axis=1)
+print(dataTitanicClean2)
+
+print('# Tidak di drop minimal 8 data yang bukan NaN')
+dataTitanicClean2 = dataTitanic.dropna(thresh=8) # jika thresh=7 maka minimal 7, dst
+print(dataTitanicClean2)
+
+''' 
+Note: Sebenarnya jangn pernah menghilangkan data yang ada NaNnya,
+karena siapa tau ada data penting. Jika digunakan untuk AI/ML
+biasanya data-data kosong (NaN) diisi dengan data rata-rata kolom tsb.
+Contohnya menggunakan fillna()
+'''
+
+print( dataTitanic.age.fillna(value=dataTitanic.age.mean()) )
+# Memasukkan ke DataFrame
+dataTitanic.age = dataTitanic.age.fillna(value=dataTitanic.age.mean())
+print(dataTitanic)
+
+
+## Merubah type data panda series di menjadi array
+'''
+Karena biasanya di library Machine Learning seperti Library sklearn membutuhkan array
+'''
+print(dataTitanic.age.values)
